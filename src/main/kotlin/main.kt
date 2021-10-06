@@ -1,37 +1,47 @@
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.desktop.AppWindow
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.unit.IntSize
-import java.awt.Color.BLACK
-import javax.swing.SwingUtilities
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.*
 
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
-fun main() = SwingUtilities.invokeLater {
-    val window = AppWindow(
-        title = "Smart Mirror",
-        size = IntSize(1920, 1080)
+fun main() = application {
+    val state = rememberWindowState(
+        placement = WindowPlacement.Fullscreen,
     )
-    window.window.background = BLACK
-    window.window.contentPane.background = BLACK
 
-    // Add escape as close shortcut
-    window.keyboard.setShortcut(Key.Escape) {
-        window.close()
-    }
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = "Smart Mirror",
+        state = state,
+        onKeyEvent = {
+            if (it.type != KeyEventType.KeyUp) {
+                return@Window false;
+            }
 
-    window.keyboard.setShortcut(Key.F11) {
-        if(window.isFullscreen) {
-            window.restore()
-        } else {
-            window.makeFullscreen()
+            if (it.key == Key.Escape) {
+                this.exitApplication()
+                return@Window true
+            }
+            if (it.key == Key.F11) {
+                if (state.placement == WindowPlacement.Fullscreen) {
+                    state.placement = WindowPlacement.Floating
+                } else {
+                    state.placement = WindowPlacement.Fullscreen
+                }
+                return@Window true
+            }
+            return@Window false;
         }
-    }
-
-    // Immediately go into fullscreen
-    window.makeFullscreen()
-
-    window.show {
+    ) {
         App()
     }
+//    window.window.background = BLACK
+//    window.window.contentPane.background = BLACK
 }
