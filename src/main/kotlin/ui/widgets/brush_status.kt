@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -14,51 +15,60 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import hw.BrushScanner
+import hw.BrushState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlin.math.abs
 
 const val progressSize = 15f
 const val progressOutline = 2f
 
+const val maxTimer = 2 * 60
+
 // TODO: hook into bluetooth advertisements to start anim
 // TODO: Add tooth graphic
 
+@ExperimentalCoroutinesApi
 @Composable
 fun BrushStatus(modifier: Modifier = Modifier) {
     val color = MaterialTheme.colors.primary
 
-    var timeRemaining by remember { mutableStateOf(60 * 2) }
-
-    // Countdown
-    LaunchedEffect(timeRemaining) {
-        while (timeRemaining > 0) {
-            delay(1000);
-            timeRemaining--
-        }
-    }
+//    var isRunning by remember { mutableStateOf(false) }
+    var timer by remember { mutableStateOf(0) }
 
     val animateFloat = remember { Animatable(0f) }
-    LaunchedEffect(animateFloat) {
-        animateFloat.animateTo(
-            targetValue = 0.25f,
-            animationSpec = tween(durationMillis = 30 * 1000, easing = LinearEasing)
-        )
-        animateFloat.animateTo(
-            targetValue = 0.5f,
-            animationSpec = tween(durationMillis = 30 * 1000, easing = LinearEasing)
-        )
-        animateFloat.animateTo(
-            targetValue = 0.75f,
-            animationSpec = tween(durationMillis = 30 * 1000, easing = LinearEasing)
-        )
-        animateFloat.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(durationMillis = 30 * 1000, easing = LinearEasing)
-        )
+
+    // TODO: figure out how to effectively combine local timer plus time from brush
+//    LaunchedEffect(true) {
+//        BrushScanner
+//            .onBrushUpdate()
+//            .collectLatest {
+//                isRunning = it.state == BrushState.RUN
+//
+//                // Override timer if it's too far behind
+//                if (abs(timer - it.timer) > 2) {
+//                    println("Overriding timer...")
+//                    timer = it.timer
+//                }
+//            }
+//    }
+//
+    LaunchedEffect(true) {
+            while (timer < maxTimer) {
+                animateFloat.animateTo(
+                    targetValue = ((timer + 1.0f) / maxTimer),
+                    animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
+                )
+                timer++
+            }
     }
 
     Box(modifier.fillMaxSize()) {
-        Canvas(modifier.fillMaxSize()) {
+        Canvas(Modifier.fillMaxSize()) {
             val arcCenter =
                 center - Offset(
                     size.minDimension / 2 - (progressSize / 2),
@@ -80,8 +90,18 @@ fun BrushStatus(modifier: Modifier = Modifier) {
                 style = Stroke(width = progressOutline)
             )
         }
-        // TODO: not aligned properly
-        Text(formatTimeRemaining(timeRemaining), fontSize = 32.sp, modifier = modifier.align(Alignment.BottomCenter))
+        Box(
+            Modifier
+                .fillMaxSize()
+                .align(Alignment.Center)
+                .padding(progressSize.dp * 2f)
+        ) {
+            Text(
+                formatTimeRemaining(timer),
+                fontSize = 32.sp,
+                modifier = Modifier.align(Alignment.BottomCenter),
+            )
+        }
     }
 }
 
