@@ -33,8 +33,8 @@ fun App() {
         visible = true
     }
 
-    val enterAnim = fadeIn(0F, spring(stiffness = Spring.StiffnessVeryLow))
-    val exitAnim = fadeOut(0F, spring(stiffness = Spring.StiffnessVeryLow))
+    val enterAnim = fadeIn(spring(stiffness = Spring.StiffnessVeryLow), 0F)
+    val exitAnim = fadeOut(spring(stiffness = Spring.StiffnessVeryLow), 0F)
 
     MirrorTheme {
         Box(
