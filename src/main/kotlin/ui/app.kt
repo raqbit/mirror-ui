@@ -14,13 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import ui.theme.MirrorTheme
 import ui.widgets.BrushStatus
 import ui.widgets.TimeDateDisplay
-import ui.widgets.VentilationControls
+import ui.widgets.ventilation.VentilationControls
 
 
+@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @Composable
 fun App() {

@@ -21,6 +21,7 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation("com.github.weliem.blessed-bluez:blessed:0.39")
+    implementation("com.fazecast:jSerialComm:2.7.0")
 }
 
 tasks.withType<KotlinCompile>() {
