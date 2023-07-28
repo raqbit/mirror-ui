@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ui.theme.MirrorTheme
-import ui.widgets.BrushStatus
+import ui.widgets.brush_status.BrushStatus
 import ui.widgets.TimeDateDisplay
 import ui.widgets.VentilationControls
 
