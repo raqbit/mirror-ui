@@ -3,6 +3,7 @@ package ui.widgets
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -14,12 +15,17 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.TextStyle
 import java.time.temporal.ChronoField
 import java.util.*
 
-val timeFormatter = DateTimeFormatterBuilder().appendValue(ChronoField.HOUR_OF_DAY, 2).appendLiteral(':').appendValue(ChronoField.MINUTE_OF_HOUR, 2).toFormatter()!!
+val timeFormatter: DateTimeFormatter = DateTimeFormatterBuilder()
+    .appendValue(ChronoField.HOUR_OF_DAY, 2)
+    .appendLiteral(':')
+    .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
+    .toFormatter()
 
 @Composable
 fun TimeDateDisplay(
@@ -36,10 +42,15 @@ fun TimeDateDisplay(
         }.collect()
     }
 
-    Column(modifier) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(formatTime(now.toLocalTime()), fontSize = 200.sp)
-        Text("${formatDayOfWeek(now.dayOfWeek, locale)}, ${formatDate(now.toLocalDate(), locale)}", fontSize = 60.sp)
+        DateDisplay(now.toLocalDate(), locale)
     }
+}
+
+@Composable
+fun DateDisplay(date: LocalDate, locale: Locale = Locale.ENGLISH) {
+    Text("${formatDayOfWeek(date.dayOfWeek, locale)}, ${formatDate(date, locale)}", fontSize = 60.sp)
 }
 
 fun timer() = flow<LocalDateTime> {

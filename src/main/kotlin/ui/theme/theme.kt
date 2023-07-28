@@ -40,7 +40,7 @@ fun MirrorTheme(content: @Composable () -> Unit) {
             isLight = false,
         ),
         typography = MaterialTheme.typography.copy(
-            body1 = TextStyle.Default.copy(Color.White)
+            body1 = TextStyle.Default.copy(Color.White),
         )
     ) {
         CompositionLocalProvider(

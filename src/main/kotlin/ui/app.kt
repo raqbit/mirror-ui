@@ -24,7 +24,6 @@ import ui.widgets.VentilationControls
 @ExperimentalAnimationApi
 @Composable
 fun App() {
-    var score by remember { mutableStateOf(0) }
     var visible by remember { mutableStateOf(false) }
 
     // TODO: instead, delay until everything has loaded?

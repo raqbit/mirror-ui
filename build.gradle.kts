@@ -1,17 +1,15 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.21"
-    id("org.jetbrains.compose") version "1.0.0-alpha3"
+    kotlin("jvm") version "1.8.20"
+    id("org.jetbrains.compose") version "1.5.0-dev1128"
 }
 
-group = "me.ramon"
+group = "it.raqb"
 version = "1.0"
 
 repositories {
-    jcenter()
     mavenCentral()
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     maven { url = uri("https://jitpack.io/#weliem/blessed-bluez") }
@@ -20,11 +18,12 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation("com.github.weliem.blessed-bluez:blessed:0.39")
+    implementation("com.github.weliem.blessed-bluez:blessed:0.61")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
-tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "11"
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "17"
 }
 
 compose.desktop {

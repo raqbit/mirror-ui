@@ -31,7 +31,8 @@ fun main() = application {
             }
             if (it.key == Key.F11) {
                 if (state.placement == WindowPlacement.Fullscreen) {
-                    state.placement = WindowPlacement.Floating
+                    // TODO: This is simply not working. JB pls fix
+                    state.placement = WindowPlacement.Maximized
                 } else {
                     state.placement = WindowPlacement.Fullscreen
                 }
@@ -42,6 +43,4 @@ fun main() = application {
     ) {
         App()
     }
-//    window.window.background = BLACK
-//    window.window.contentPane.background = BLACK
 }
