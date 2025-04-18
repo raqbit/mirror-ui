@@ -1,6 +1,5 @@
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -14,6 +13,7 @@ import androidx.compose.ui.window.*
 fun main() = application {
     val state = rememberWindowState(
         placement = WindowPlacement.Fullscreen,
+        position = WindowPosition.Absolute(2560.dp, 0.dp) // TODO: For debug purposes only (second monitor)
     )
 
     Window(

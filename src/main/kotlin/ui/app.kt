@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import ui.theme.MirrorTheme
-import ui.widgets.BrushStatus
+import ui.widgets.brush_status.BrushStatus
 import ui.widgets.TimeDateDisplay
 import ui.widgets.VentilationControls
 
@@ -32,8 +32,8 @@ fun App() {
         visible = true
     }
 
-    val enterAnim = fadeIn(0F, spring(stiffness = Spring.StiffnessVeryLow))
-    val exitAnim = fadeOut(0F, spring(stiffness = Spring.StiffnessVeryLow))
+    val enterAnim = fadeIn(spring(stiffness = Spring.StiffnessVeryLow), 0F)
+    val exitAnim = fadeOut(spring(stiffness = Spring.StiffnessVeryLow), 0F)
 
     MirrorTheme {
         Box(
@@ -43,8 +43,8 @@ fun App() {
         ) {
             AnimatedVisibility(visible, enter = enterAnim, exit = exitAnim) {
                 Box(Modifier.fillMaxSize().padding(40.dp)) {
-                    TimeDateDisplay(modifier = Modifier.align(Alignment.TopCenter).padding(top = 180.dp))
                     BrushStatus(modifier = Modifier.align(Alignment.TopStart).size(300.dp))
+                    TimeDateDisplay(modifier = Modifier.align(Alignment.TopCenter).padding(top = 180.dp))
                     VentilationControls(
                         modifier = Modifier.align(Alignment.BottomStart),
                     )

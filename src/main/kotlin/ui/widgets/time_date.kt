@@ -1,5 +1,6 @@
 package ui.widgets
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -27,6 +28,7 @@ val timeFormatter: DateTimeFormatter = DateTimeFormatterBuilder()
     .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
     .toFormatter()
 
+@Preview
 @Composable
 fun TimeDateDisplay(
     modifier: Modifier = Modifier,
